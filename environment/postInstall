@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+pip install allensdk==2.14.1 --ignore-installed ruamel.yaml
+
+pip install jinja2==3.0.1
+pip install nbconvert==6.4.4
+Rscript -e "IRkernel::installspec()"
