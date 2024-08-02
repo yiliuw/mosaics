@@ -1,3 +1,3 @@
-# aind-capsule-template
+# Mosaic patterns in the cortex
 
-Basic structure of a capsule to be customized as needed.
+Code for the paper "Spatial transcriptomic data reveals pure cell types via the mosaic hypothesis"
