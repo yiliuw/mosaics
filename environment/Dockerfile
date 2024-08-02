@@ -1,4 +1,4 @@
-# hash:sha256:bdb78393eb419ff7d9e6102349de333f8a13e05bc4a3607e3bb7445e3788358a
+# hash:sha256:320569791615ad731d2bfea8a4b7cfeb382dab3f16fc2b9dd021ec86b00f6a04
 ARG REGISTRY_HOST
 FROM $REGISTRY_HOST/codeocean/jupyterlab:3.6.1-miniconda4.12.0-python3.9-ubuntu20.04
 
@@ -18,10 +18,16 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN conda install -y \
+        matplotlib==3.4.2 \
         pandas==2.2.2 \
         r==4.3.1 \
         r-irkernel==1.3.2 \
     && conda clean -ya
+
+RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.file.method = "libcurl")' >> $(Rscript -e 'cat(R.home())')/etc/Rprofile.site \
+    && echo 'options(Ncpus = parallel::detectCores())' >> $(Rscript -e 'cat(R.home())')/etc/Rprofile.site \
+    && Rscript -e 'options(warn=2); install.packages("remotes")'
+RUN Rscript -e 'remotes::install_version("spatstat")'
 
 COPY postInstall /
 RUN /postInstall
