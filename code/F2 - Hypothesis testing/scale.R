@@ -43,7 +43,7 @@ calc_area<- function(data, n, cl){
 }
 
 ### Find parcellation substructures
-### This function is global
+### This function is global across sections
 find_parc <- function(data, nn, cl, flag){
     if (flag==TRUE){
         sub <- unique(data[data$cluster %in% cl,]$subclass)
@@ -118,31 +118,31 @@ init_window<-function(r,data, n, cl, flag){
     
     ow1.data<-as.data.frame(ow1)
     ids<-c(unique(ow1.data$id))  
-    ## filter on erosions
-    if (length(ids)>1){ 
-        q = c()
-        for (i in ids){
-            data<-subset(ow1.data,id==i)
-            ## window with holes
-            if (data$sign[1]==-1){
-                next
-            }
-            bds<-split(data[,c('x','y')],data$id)
-            w<-owin(poly=bds)
-            skip_to_next <- FALSE
-            tryCatch(erosion.owin(w, r=0.5*b), error = function(e) { skip_to_next <<- TRUE})
-            if(skip_to_next) { 
-                next
-            }
-            q<-append(q,i)  
-        }
+    ## filter on erosions (small windows will be removed)
+    ##if (length(ids)>1){ 
+    ##    q = c()
+    ##    for (i in ids){
+    ##        data<-subset(ow1.data,id==i)
+    ##        ## window with holes
+    ##        if (data$sign[1]==-1){
+    ##            next
+    ##        }
+    ##        bds<-split(data[,c('x','y')],data$id)
+    ##        w<-owin(poly=bds)
+    ##        skip_to_next <- FALSE
+    ##        tryCatch(erosion.owin(w, r=0.5*b), error = function(e) { skip_to_next <<- TRUE})
+    ##        if(skip_to_next) { 
+    ##           next
+    ##        }
+    ##        q<-append(q,i)  
+    ##    }
    
-        ow1.data<-subset(ow1.data,id %in% q)
-        bds<-split(ow1.data[,c('x','y')],ow1.data$id)
-        ow1<-owin(poly=bds)
-    }
-    ow<- erosion.owin(ow1, r=0.5*b)   
-    newList <- list("data" = c1, "ow" = ow)
+    ##    ow1.data<-subset(ow1.data,id %in% q)
+    ##    bds<-split(ow1.data[,c('x','y')],ow1.data$id)
+    ##    ow1<-owin(poly=bds)
+    ##}
+    ## ow1 <- erosion.owin(ow1, r=0.5*b)   
+    newList <- list("data" = c1, "ow" = ow1)
     return(newList)
 }
 
@@ -154,7 +154,6 @@ final_window<-function(init, f){
     p1 <- ppp(data$x, data$y, init$ow, marks = data[,c('cluster_confidence_score')])
     b<-bw.ppl(p1)
     dp1<- density(p1, sigma=0.5*b)
-    ## NEW selection rule
     if (f == TRUE){  ## no overlap
         Zcut<- cut(dp1, breaks = c(0,mean(dp1),max(dp1)), include.lowest=TRUE,label=1:2)
     }
@@ -173,7 +172,6 @@ final_window<-function(init, f){
     else{
         ow1 <- erosion.owin(ow1, r=0.25*b)
         Window(p1)<- ow1
-        # closing.owin(ow1, r=0.5*b)  
     }
         
     return(p1)
@@ -204,7 +202,7 @@ create_pp <- function(data, rr=NULL, nn, type){
         r <- rr[[as.character(n)]]   ## non-zero parcellations  
         init <- init_window(r, data, n, cl, flag)
         pf <- final_window(init, TRUE)
-        ## comment for inhibitory types
+        ## comment for inhibitory types without projection error (return larger window)
         if (ecdf(nndist(pf))(0.01) > 0){
             pf <- final_window(init, FALSE)
         }
