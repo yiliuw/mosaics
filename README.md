@@ -31,7 +31,7 @@ As an example of adapting the method to another spatial transcriptomic dataset, 
 If you use this code, please cite:
 
 > Wang, Y., Koch, C., & Sümbül, U. (2025). *Evidence from spatial transcriptomics for the mosaic hypothesis and pure cell types in the cortex.* Cell reports & [BioRxiv](https://www.biorxiv.org/content/10.1101/2024.08.09.607193v2).
-
+> DOI: 10.5281/zenodo.16878910
 ---
 
 
