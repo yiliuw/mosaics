@@ -16,13 +16,13 @@ We suggest you export the repository to Code Ocean for a fully interactive run. 
 
 
 ### Usage
-We provide data and several Jupyter Notebooks in `code/` folder. The notebooks are arranged in the order of main figures in the paper. We recommend reading the following steps along with the main paper. If you choose to download the code to your own computer, please also check the `environment/` folder for environment setups.
+We provide data and several Jupyter Notebooks in `code/` folder. The notebooks are arranged in the order of main figures in the paper. We recommend reading the following steps along with the main paper. If you choose to download the code to your own computer, please also check the `environment/` folder for environment setups. 
 1. **F1 - Data and mechanism** introduces the exemplar dataset (*illustration.ipynb*) and key mathematical concepts (*mechanism.ipynb*). While the data is publicly available at [Data link](https://alleninstitute.github.io/abc_atlas_access/intro.html), sample of data used for demonstration is included in this folder (for details, see *sagittal.ipynb*).
 2. **F2 - Hypothesis testing** includes key algorithms for cell type filtering (*filter.ipynb*) and hypothesis testing(*hypothesis-x.ipynb*). The outputs for excitatory and inhibitory cell types are separated. This folder is key if you are interested in testing the hypothesis for your own spatial transcriptomic data.
 3. **F3 - Segregation effects** introduces the concept of segregation index (*index.ipynb*) and discusses the differences of excitatory and inhibitory cell types at the subclass level (*distribution.ipynb*).
 4. **F4 - ECC** introduces the effective cluster count and the construction of the tree hierarchy diagram as we merge cell types. 
 
-As an example of adapting the method to another spatial transcriptomic dataset, see notebooks in the `Supplementary dataset/` folder.
+As an example of adapting the method to another spatial transcriptomic dataset, see notebooks in the `code/Supplementary dataset/` folder.
 
 ---
 
